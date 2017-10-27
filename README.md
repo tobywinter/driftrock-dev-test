@@ -19,3 +19,40 @@ $ ruby app.rb total_spend drift.rock@email.com
 22.98
 $ ruby app.rb most_loyal drift.rock@email.com
 ```
+
+## Structure
+
+
+## To Run
+
+- clone repository
+
+```
+git clone git@github.com:tobywinter/driftrock-dev-test.git
+```
+
+Once in the driftrock-dev-test directory
+
+- run the tests
+
+```
+rspec
+```
+
+- run the App in the console with a command to select your query
+
+e.g.
+```
+ruby app.rb highest_value
+```
+
+
+## Screenshots
+#### Running the App
+
+![Running the App](imgs/run_app.png)
+
+#### Displaying the results
+![Displaying the results](imgs/results_display.png)
+
+## Improvements

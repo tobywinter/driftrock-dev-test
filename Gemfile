@@ -9,3 +9,5 @@ group :development, :test do
   gem "simplecov"
   gem "simplecov-console"
 end
+
+gem "httparty"
