@@ -9,4 +9,12 @@ describe ApiClient do
     expect(api_client.users).to include("data")
   end
 
+  context 'users' do
+
+    it 'users parses data to accesible json' do
+      expect(api_client.users["data"].class).to eq Array
+    end
+
+  end
+
 end
