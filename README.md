@@ -8,6 +8,11 @@ Viagogo Coding Challenge
 
 - the script should implement:
 - total_spend [EMAIL]: "What is the total spend of the user with this email address[EMAIL]?"
+To get total spend of a certain user using email:
+1. Find Users id by searching users with email.
+2. Search for all purchases with that user_id
+3. Sum all purchases with that user_id
+
 - average_spend[EMAIL]: "What is the average spend of the user with this email address [EMAIL]?"
 - most_loyal: "What is the email address of the most loyal user(most purchases)?"
 - highest_value: "What is the email address of the highest value user?"

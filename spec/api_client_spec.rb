@@ -6,14 +6,18 @@ describe ApiClient do
   end
 
   it 'queries api for users with :users' do
-    expect(api_client.users).to include("data")
+    expect(api_client.users[0]).to include("id")
   end
 
-  context 'users' do
+  context 'Users' do
 
-    it 'parses data to accesible json' do
-      expect(api_client.users["data"].class).to eq Array
+    it 'returns parsed user data' do
+      expect(api_client.users.class).to eq Array
     end
+
+    # it 'can search for a user by email' do
+    #   expect(api_client.users)
+    # end
 
   end
 

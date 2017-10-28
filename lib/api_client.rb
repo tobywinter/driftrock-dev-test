@@ -3,9 +3,7 @@ require 'json'
 
 class ApiClient
   BASE_URI = "https://driftrock-dev-test-2.herokuapp.com"
-
-  def initialize
-  end
+  PAGE_LENGTH = 2000
 
   def check_status
     response = HTTParty.get("#{BASE_URI}/status")
@@ -13,7 +11,22 @@ class ApiClient
   end
 
   def users
-    response = HTTParty.get("#{BASE_URI}/users?page=1&per_page=20")
-    JSON.parse(response.body)
+    i = 1
+    data_available = true
+    users = []
+    while data_available do
+      response = HTTParty.get("#{BASE_URI}/users?page=#{i}&per_page=#{PAGE_LENGTH}")
+      users += JSON.parse(response.body)["data"]
+      data_available = page_full?(response)
+      i += 1
+    end
+    users
   end
+
+private
+
+  def page_full?(response)
+    JSON.parse(response.body)["data"].length == PAGE_LENGTH
+  end
+
 end
