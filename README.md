@@ -16,6 +16,10 @@ To get total spend of a certain user using email:
 - average_spend[EMAIL]: "What is the average spend of the user with this email address [EMAIL]?"
 - most_loyal: "What is the email address of the most loyal user(most purchases)?"
 - highest_value: "What is the email address of the highest value user?"
+1. find all user ids
+2. map total spend for each id - into hash.
+3. select maximum spend - return user information with user_id
+
 - most_sold: "What is the name of the most sold item"
 
 e.g.

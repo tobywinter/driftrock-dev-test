@@ -68,17 +68,39 @@ class ApiClient
   def most_loyal
     user_frequency = user_ids.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
     max_frequency = user_frequency.values.max
-    most_frequent = user_frequencys.select { |user_id, frequency| frequency == max_frequency }
+    most_frequent = user_frequency.select { |user_id, frequency| frequency == max_frequency }
     user_id = most_frequent.flatten[0]
     find_email(user_id)
   end
 
+  def most_sold
+    item_sales = items.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    max_frequency = user_frequency.values.max
+    most_frequent = user_frequency.select { |user_id, frequency| frequency == max_frequency }
+    user_id = most_frequent.flatten[0]
+    find_email(user_id)
+  end
+
+  def items
+    @purchases.map { |purchase| purchase['item'] }.uniq
+  end
+
+  def highest_value
+    user_values = total_spends
+    max_spend = user_values.values.max
+    user_values.find { |k, v| v == max_spend}
+  end
+
+  def total_spends
+    user_ids.map { |id| [id, sum_value(find_user_purchases(id))]}.to_h
+  end
+
   def user_ids
-    @purchases.map {|purchase| purchase["user_id"] }
+    @users.map { |user| user["id"] }
   end
 
   def find_email(id)
-    @users.find {|user| user["id"] == id }
+    @users.find { |user| user["id"] == id }
   end
 
 private
