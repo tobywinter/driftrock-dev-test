@@ -66,15 +66,15 @@ class ApiClient
   end
 
   def most_loyal
-    user_frequency = user_ids.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
-    max_frequency = user_frequency.values.max
-    most_frequent = user_frequency.select { |user_id, frequency| frequency == max_frequency }
-    user_id = most_frequent.flatten[0]
+    purchase_frequency = user_ids_from_each_purchase.inject(Hash.new(0)) { |hash,value| hash[value] += 1; hash }
+    most_purchases = purchase_frequency.values.max
+    most_frequent_user = purchase_frequency.select { |user_id, frequency| frequency == most_purchases }
+    user_id = most_frequent_user.flatten[0]
     find_email(user_id)
   end
 
   def most_sold
-    item_sales = items.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    item_sales = items.inject(Hash.new(0)) { |hash,value| hash[value] += 1; hash }
     max_frequency = user_frequency.values.max
     most_frequent = user_frequency.select { |user_id, frequency| frequency == max_frequency }
     user_id = most_frequent.flatten[0]
@@ -88,7 +88,8 @@ class ApiClient
   def highest_value
     user_values = total_spends
     max_spend = user_values.values.max
-    user_values.find { |k, v| v == max_spend}
+    user_id = user_values.find { |key, value| value == max_spend}[0]
+    find_email(user_id)
   end
 
   def total_spends
@@ -100,7 +101,7 @@ class ApiClient
   end
 
   def find_email(id)
-    @users.find { |user| user["id"] == id }
+    @users.find { |user| user["id"] == id }['email']
   end
 
 private
@@ -112,6 +113,10 @@ private
   def user_purchases(email)
     user = find_user(email)
     purchases = find_user_purchases(user["id"])
+  end
+
+  def user_ids_from_each_purchase
+    @purchases.map { |purchase| purchase["user_id"] }
   end
 
 end

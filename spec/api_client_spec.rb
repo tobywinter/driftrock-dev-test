@@ -93,12 +93,12 @@ describe ApiClient do
     end
 
     it 'can calculate user with the most purchases' do
-      loyal_user = api_client.users[2]
+      loyal_user = api_client.users[2]['email']
       expect(api_client.most_loyal).to eq loyal_user
     end
 
     it 'can calculate the user with the highest spend' do
-      expect(api_client.highest_value[1]).to eq 184.70999999999998
+      expect(api_client.highest_value).to eq 'schowalter.roslyn@moen.name'
     end
   end
 end
