@@ -33,7 +33,7 @@ describe ApiClient do
         "spend"=>"37.6"},
       {"user_id"=>"MNYR-CMZZ-1VR0-OY5R", "item"=>"Mediocre Rubber Coat",
         "spend"=>"55.39"},
-      {"user_id"=>"MNYR-CMZZ-1VR0-OY5R", "item"=>"Synergistic Marble Knife",
+      {"user_id"=>"MNYR-CMZZ-1VR0-OY5R", "item"=>"Synergistic Concrete Table",
         "spend"=>"5.68"}])
   end
 
@@ -99,6 +99,10 @@ describe ApiClient do
 
     it 'can calculate the user with the highest spend' do
       expect(api_client.highest_value).to eq 'schowalter.roslyn@moen.name'
+    end
+
+    it 'can calculate the item sold the most times' do
+      expect(api_client.most_sold).to eq 'Synergistic Concrete Table'
     end
   end
 end
