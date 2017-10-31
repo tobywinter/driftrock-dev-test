@@ -28,10 +28,6 @@ class ApiClient
     end
   end
 
-  def find_user(email)
-    @users.find {|user| user["email"] == email }
-  end
-
   def get_purchases
     i = 1
     data_available = true
@@ -43,20 +39,6 @@ class ApiClient
     end
   end
 
-  def find_user_purchases(user_id)
-    @purchases.select {|purchase| purchase["user_id"] == user_id }
-  end
-
-  def sum_value(purchases)
-    sum = 0
-    purchases.each { |purchase| sum += purchase["spend"].to_f }
-    sum
-  end
-
-  def mean_value(purchases)
-    sum_value(purchases) / purchases.length
-  end
-
   def total_spend(email)
     sum_value(user_purchases(email))
   end
@@ -66,23 +48,18 @@ class ApiClient
   end
 
   def most_loyal
-    purchase_frequency = user_ids_from_each_purchase.inject(Hash.new(0)) { |hash,user_id| hash[user_id] += 1; hash }
+    purchase_frequency = frequency_of(user_ids_from_each_purchase)
     most_purchases = purchase_frequency.values.max
-    most_frequent_user = purchase_frequency.select { |user_id, frequency| frequency == most_purchases }
+    most_frequent_user = find_most_frequent(purchase_frequency, most_purchases)
     user_id = most_frequent_user.flatten[0]
     find_email(user_id)
   end
 
   def most_sold
-    item_sales = items.inject(Hash.new(0)) { |hash,item| hash[item] += 1; hash }
+    item_sales = frequency_of(items)
     max_frequency = item_sales.values.max
-    most_sold_item = item_sales.select { |item, frequency| frequency == max_frequency }
+    most_sold_item = find_most_frequent(item_sales, max_frequency)
     most_sold_item.flatten[0]
-
-  end
-
-  def items
-    @purchases.map { |purchase| purchase['item'] }
   end
 
   def highest_value
@@ -92,16 +69,18 @@ class ApiClient
     find_email(user_id)
   end
 
-  def total_spends
-    user_ids.map { |id| [id, sum_value(find_user_purchases(id))]}.to_h
+  def find_user(email)
+    @users.find {|user| user["email"] == email }
   end
 
-  def user_ids
-    @users.map { |user| user["id"] }
+  def find_user_purchases(user_id)
+    @purchases.select {|purchase| purchase["user_id"] == user_id }
   end
 
-  def find_email(id)
-    @users.find { |user| user["id"] == id }['email']
+  def sum_value(purchases)
+    sum = 0
+    purchases.each { |purchase| sum += purchase["spend"].to_f }
+    sum
   end
 
 private
@@ -119,4 +98,31 @@ private
     @purchases.map { |purchase| purchase["user_id"] }
   end
 
+  def user_ids
+    @users.map { |user| user["id"] }
+  end
+
+  def find_email(id)
+    @users.find { |user| user["id"] == id }['email']
+  end
+
+  def items
+    @purchases.map { |purchase| purchase['item'] }
+  end
+
+  def total_spends
+    user_ids.map { |id| [id, sum_value(find_user_purchases(id))]}.to_h
+  end
+
+  def mean_value(purchases)
+    sum_value(purchases) / purchases.length
+  end
+
+  def frequency_of(objects)
+    objects.inject(Hash.new(0)) { |hash,key| hash[key] += 1; hash }
+  end
+
+  def find_most_frequent(frequency_of_objects, max_frequency)
+    frequency_of_objects.select { |key, frequency| frequency == max_frequency }
+  end
 end

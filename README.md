@@ -1,4 +1,4 @@
-Viagogo Coding Challenge
+Driftrock Developer Test
 ========================
 
 ## Approach
@@ -31,8 +31,6 @@ $ ruby app.rb most_loyal drift.rock@email.com
 
 - A call trying to access the data of ALL purchases or ALL users should run (loop) WHILE checking the number of elements returned on each page. WHEN the number of users or purchases returned is less than the total requested per page - the loop should finish as this is the end of the available data.(Since the only way to know you've reached the end is that the number of entries returned is less than the amount requested per page)
 
-## Structure
-
 
 ## To Run
 
@@ -43,6 +41,12 @@ git clone git@github.com:tobywinter/driftrock-dev-test.git
 ```
 
 Once in the driftrock-dev-test directory
+
+- run bundler
+
+```
+bundle install
+```
 
 - run the tests
 
@@ -55,15 +59,30 @@ rspec
 e.g.
 ```
 ruby app.rb highest_value
+// returns the email address of the highest value user
+
+
+ruby app.rb most_sold
+// returns the name of the most sold item
+
+ruby app.rb most_loyal
+// returns email address of the user with the most purchases
+
+ruby app.rb total_spend email@address.com
+// returns the total spend of the user registered with the email 'email@address.com'
+
+ruby app.rb average_spend email@address.com
+// returns the average spend of the user registered with the email 'email@address.com'
 ```
 
 
 ## Screenshots
-#### Running the App
-
-![Running the App](imgs/run_app.png)
-
-#### Displaying the results
-![Displaying the results](imgs/results_display.png)
+#### Running and Displaying Results
+![Displaying the results](imgs/queries.png)
 
 ## Improvements
+
+- Some of the methods in ApiClient are large and need refactoring
+- I want to extract a Users a Purchases and a Queries/Calculator class from ApiClient - aim for single responsibility of each class as I am not satisfied with the structure - it could be much more extendable than it currently is.
+- If I were to build it again I would extract to other classes much sooner
+- I would consider if it would be useful to save the data from the api somewhere and just update it when it's called again, calling for the full amount takes a lot of time and means some of the queries are quite slow.

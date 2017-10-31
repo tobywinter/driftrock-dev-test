@@ -6,7 +6,7 @@ loading = '--------------- Retrieving Information ---------------'
 first_arg, *email = ARGV
 
 if first_arg == 'total_spend'
-  puts "What is the total spend of the user with this email address #{email[0].chomp}?"
+  puts "What is the total spend of the user with this email address: #{email[0].chomp}?"
   puts loading
   client.get_users
   client.get_purchases
@@ -14,7 +14,7 @@ if first_arg == 'total_spend'
 end
 
 if first_arg == 'average_spend'
-  puts "What is the average spend of the user with this email address #{email[0].chomp}?"
+  puts "What is the average spend of the user with this email address: #{email[0].chomp}?"
   puts loading
   client.get_users
   client.get_purchases
